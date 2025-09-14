@@ -45,7 +45,7 @@ export const BookingWidget = () => {
     window.history.replaceState({}, '', window.location.pathname + query);
     
     // Open WhatsApp
-    const waBase = 'https://wa.me/?text=';
+    const waBase = 'https://wa.me/+918960186655?text=';
     window.open(waBase + urlEncoded, '_blank');
   };
 
