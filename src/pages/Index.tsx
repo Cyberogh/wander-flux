@@ -22,7 +22,7 @@ const Index = () => {
         <section id="about" className="py-20 px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-display font-bold text-display text-white mb-8">
-              Why Choose <span className="text-accent-1">TravelCo</span>?
+              Why Choose <span className="text-accent-1">Thrill Trail</span>?
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {[
@@ -64,7 +64,7 @@ const Index = () => {
             <div className="w-8 h-8 bg-gradient-to-br from-accent-1 to-accent-2 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">T</span>
             </div>
-            <span className="text-white font-display font-bold text-xl">TravelCo</span>
+            <span className="text-white font-display font-bold text-xl">Thrill Trail</span>
           </div>
           <p className="text-white/60 mb-6">
             Crafting unforgettable 3-day adventures since 2024
