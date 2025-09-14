@@ -4,6 +4,7 @@ import { Hero } from '@/components/Hero';
 import { DestinationCarousel } from '@/components/DestinationCarousel';
 import { InternationalSlider } from '@/components/InternationalSlider';
 
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-bg-900 relative overflow-x-hidden">
