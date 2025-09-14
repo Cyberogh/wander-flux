@@ -45,7 +45,7 @@ export const Header = () => {
           <div className="w-8 h-8 bg-gradient-to-br from-accent-1 to-accent-2 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">T</span>
           </div>
-          <span className="text-white font-display font-bold text-xl">TravelCo</span>
+          <span className="text-white font-display font-bold text-xl">Thrill Trail</span>
         </motion.div>
 
         {/* Desktop Navigation */}
