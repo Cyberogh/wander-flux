@@ -55,7 +55,6 @@ All colors MUST be HSL.
     --font-body: 'Inter', system-ui, sans-serif;
   }
 }
-}
 
 @layer base {
   * {
