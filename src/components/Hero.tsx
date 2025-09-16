@@ -102,86 +102,88 @@ export const Hero = () => {
       </AnimatePresence>
 
       {/* Content */}
-      <div className="relative z-10 flex items-center min-h-screen px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
-          {/* Hero Text */}
-          <motion.div
-            className="text-center lg:text-left"
-            style={{
-              x: mousePosition.x * -40,
-              y: mousePosition.y * -20,
-            }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                <h1 className="font-display font-extrabold text-hero leading-none mb-6">
-                  <span className="text-white">{heroSlides[currentSlide].title}</span>
-                  <br />
-                  <motion.span
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-accent-1 to-accent-2"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                  >
-                    {heroSlides[currentSlide].titleHighlight}
-                  </motion.span>
-                </h1>
-                
-                <motion.p
-                  className="text-xl text-white/80 mb-8 max-w-lg mx-auto lg:mx-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                >
-                  {heroSlides[currentSlide].subtitle}
-                </motion.p>
-
+      <div className="relative z-10 flex items-center min-h-screen px-4 sm:px-6 lg:px-8 py-20 lg:py-0">
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-8rem)]">
+            {/* Hero Text */}
+            <motion.div
+              className="text-center lg:text-left order-2 lg:order-1"
+              style={{
+                x: window.innerWidth > 1024 ? mousePosition.x * -40 : 0,
+                y: window.innerWidth > 1024 ? mousePosition.y * -20 : 0,
+              }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <AnimatePresence mode="wait">
                 <motion.div
-                  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-                  initial={{ opacity: 0, y: 20 }}
+                  key={currentSlide}
+                  initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 0.6 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <motion.button
-                    className="btn-hero magnetic glow-hover"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Explore Destinations →
-                  </motion.button>
+                  <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl xl:text-hero leading-none mb-4 lg:mb-6">
+                    <span className="text-white">{heroSlides[currentSlide].title}</span>
+                    <br />
+                    <motion.span
+                      className="text-transparent bg-clip-text bg-gradient-to-r from-accent-1 to-accent-2"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3, duration: 0.6 }}
+                    >
+                      {heroSlides[currentSlide].titleHighlight}
+                    </motion.span>
+                  </h1>
                   
-                  <motion.button
-                    className="btn-hero bg-white/10 hover:bg-white/20 magnetic"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
+                  <motion.p
+                    className="text-lg sm:text-xl text-white/80 mb-6 lg:mb-8 max-w-lg mx-auto lg:mx-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.6 }}
                   >
-                    Watch Video
-                  </motion.button>
-                </motion.div>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
+                    {heroSlides[currentSlide].subtitle}
+                  </motion.p>
 
-          {/* Booking Widget */}
-          <motion.div
-            className="lg:justify-self-end w-full max-w-md mx-auto lg:mx-0"
-            style={{
-              x: mousePosition.x * 20,
-              y: mousePosition.y * 10,
-            }}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
-          >
-            <BookingWidget />
-          </motion.div>
+                  <motion.div
+                    className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7, duration: 0.6 }}
+                  >
+                    <motion.button
+                      className="btn-hero magnetic glow-hover px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Explore Destinations →
+                    </motion.button>
+                    
+                    <motion.button
+                      className="btn-hero bg-white/10 hover:bg-white/20 magnetic px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Watch Video
+                    </motion.button>
+                  </motion.div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Booking Widget */}
+            <motion.div
+              className="lg:justify-self-end w-full max-w-md mx-auto lg:mx-0 order-1 lg:order-2"
+              style={{
+                x: window.innerWidth > 1024 ? mousePosition.x * 20 : 0,
+                y: window.innerWidth > 1024 ? mousePosition.y * 10 : 0,
+              }}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+            >
+              <BookingWidget />
+            </motion.div>
+          </div>
         </div>
       </div>
 

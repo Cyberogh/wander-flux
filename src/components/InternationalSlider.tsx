@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, MapPin, Star, Users } from 'lucide-react';
+import { TimelineModal } from './TimelineModal';
 
 interface InternationalDestination {
   id: number;
@@ -58,6 +59,7 @@ const internationalDestinations: InternationalDestination[] = [
 
 export const InternationalSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [timelineModal, setTimelineModal] = useState({ isOpen: false, destination: '' });
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -89,7 +91,7 @@ export const InternationalSlider = () => {
   };
 
   return (
-    <section className="py-20 px-6 lg:px-8">
+    <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -98,16 +100,16 @@ export const InternationalSlider = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-display font-bold text-display text-white mb-4">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-display text-white mb-4">
             International <span className="text-accent-2">Escapes</span>
           </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
             Cross borders, not budgets. Carefully crafted international experiences 
             that make every moment count in just 72 hours.
           </p>
         </motion.div>
 
-        <div className="relative h-[70vh] rounded-3xl overflow-hidden">
+        <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh] rounded-2xl lg:rounded-3xl overflow-hidden">
           {/* Background Slides */}
           <AnimatePresence mode="wait">
             {internationalDestinations.map((destination, index) => (
@@ -208,13 +210,24 @@ export const InternationalSlider = () => {
                     </div>
 
                     {/* CTA */}
-                    <motion.button
-                      className="btn-hero bg-accent-2/20 border-accent-2/50 hover:bg-accent-2/30 hover:border-accent-2 magnetic"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Book This Experience →
-                    </motion.button>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <motion.button
+                        className="flex-1 btn-hero bg-accent-1/20 border-accent-1/50 hover:bg-accent-1/30 hover:border-accent-1 magnetic"
+                        onClick={() => setTimelineModal({ isOpen: true, destination: internationalDestinations[currentSlide].name })}
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Explore Journey →
+                      </motion.button>
+                      
+                      <motion.button
+                        className="flex-1 btn-hero bg-green-500/20 border-green-500/50 hover:bg-green-500/30 hover:border-green-500 magnetic"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Book Experience →
+                      </motion.button>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </motion.div>
@@ -320,6 +333,12 @@ export const InternationalSlider = () => {
           </div>
         </div>
       </div>
+      
+      <TimelineModal 
+        isOpen={timelineModal.isOpen}
+        onClose={() => setTimelineModal({ isOpen: false, destination: '' })}
+        destination={timelineModal.destination}
+      />
     </section>
   );
 };

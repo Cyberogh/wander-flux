@@ -67,7 +67,7 @@ export const BookingWidget = () => {
 
   return (
     <motion.div
-      className="booking-widget w-full max-w-md"
+      className="booking-widget w-full max-w-md mx-auto lg:mx-0"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.5 }}
@@ -100,7 +100,7 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isDestinationOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 glass rounded-xl p-4 z-20"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl"
                 initial={{ opacity: 0, y: -10, rotateX: -10 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 exit={{ opacity: 0, y: -10, rotateX: -10 }}
@@ -173,7 +173,7 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isCalendarOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 glass rounded-xl p-4 z-20"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -214,7 +214,7 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isPeopleOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 glass rounded-xl p-4 z-20"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}

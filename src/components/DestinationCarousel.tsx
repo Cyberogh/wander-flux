@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Clock, Star } from 'lucide-react';
+import { TimelineModal } from './TimelineModal';
 
 interface Destination {
   id: number;
@@ -58,6 +59,7 @@ const nationalDestinations: Destination[] = [
 
 export const DestinationCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [timelineModal, setTimelineModal] = useState({ isOpen: false, destination: '' });
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const nextSlide = () => {
@@ -69,7 +71,7 @@ export const DestinationCarousel = () => {
   };
 
   return (
-    <section className="py-20 px-6 lg:px-8">
+    <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -78,10 +80,10 @@ export const DestinationCarousel = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-display font-bold text-display text-white mb-4">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-display text-white mb-4">
             National <span className="text-accent-1">Destinations</span>
           </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
             Discover the beauty of India with our curated 3-day experiences. 
             From mountain peaks to serene lakes, adventure awaits.
           </p>
@@ -198,6 +200,7 @@ export const DestinationCarousel = () => {
                       {/* CTA */}
                       <motion.button
                         className="w-full btn-hero justify-center mt-6 group-hover:bg-accent-1/20 group-hover:border-accent-1"
+                        onClick={() => setTimelineModal({ isOpen: true, destination: destination.name })}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -228,6 +231,12 @@ export const DestinationCarousel = () => {
           </div>
         </div>
       </div>
+      
+      <TimelineModal 
+        isOpen={timelineModal.isOpen}
+        onClose={() => setTimelineModal({ isOpen: false, destination: '' })}
+        destination={timelineModal.destination}
+      />
     </section>
   );
 };
