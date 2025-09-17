@@ -169,7 +169,7 @@ export const DestinationCarousel = () => {
               {nationalDestinations.map((destination) => (
                 <motion.div
                   key={destination.id}
-className="flex-shrink-0 w-full"
+className="flex-shrink-0"
 style={{ width: `${100 / cardsPerView}%` }}
                   onHoverStart={() => setHoveredCard(destination.id)}
                   onHoverEnd={() => setHoveredCard(null)}
