@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 export const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [timelineOpen, setTimelineOpen] = useState(false);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -13,9 +14,14 @@ export const CustomCursor = () => {
     const handleMouseEnter = () => setIsHovering(true);
     const handleMouseLeave = () => setIsHovering(false);
 
+    // Observe body attribute to disable cursor when timeline is open
+    const updateTimelineOpen = () => setTimelineOpen(document.body.hasAttribute('data-timeline-open'));
+    updateTimelineOpen();
+    const observer = new MutationObserver(updateTimelineOpen);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-timeline-open'] });
+
     // Add event listeners for interactive elements
     const interactiveElements = document.querySelectorAll('button, a, [role="button"], .magnetic');
-    
     interactiveElements.forEach(el => {
       el.addEventListener('mouseenter', handleMouseEnter);
       el.addEventListener('mouseleave', handleMouseLeave);
@@ -29,11 +35,12 @@ export const CustomCursor = () => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);
       });
+      observer.disconnect();
     };
   }, []);
 
-  // Only show on desktop devices with hover capability
-  if (typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) {
+  // Only show on desktop devices with hover capability or when timeline is not open
+  if ((typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches) || timelineOpen) {
     return null;
   }
 

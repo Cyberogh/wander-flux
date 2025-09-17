@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowLeft, Clock, MapPin, CheckCircle, XCircle, Backpack } from 'lucide-react';
 
@@ -62,6 +62,14 @@ const thingsToCarry = [
 export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   
+  // Disable custom cursor while timeline is open
+  useEffect(() => {
+    document.body.setAttribute('data-timeline-open', 'true');
+    return () => {
+      document.body.removeAttribute('data-timeline-open');
+    };
+  }, []);
+  
   return (
     <AnimatePresence>
       {isOpen && (
@@ -83,17 +91,16 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
           
           {/* Modal Content */}
           <motion.div
-            className="relative w-full max-w-4xl h-[90vh] bg-gradient-to-br from-[#F3E6D0] to-[#D9C7A3] rounded-2xl overflow-hidden"
+            className="relative w-full max-w-5xl h-[90vh] bg-gradient-to-br from-[#F3E6D0] to-[#D9C7A3] rounded-2xl overflow-hidden cursor-auto"
             initial={{ opacity: 0, scale: 0.9, rotateX: -10 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, scale: 0.9, rotateX: -10 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            style={{ cursor: 'auto' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex justify-between items-center p-6 border-b border-[#2E5AAC]/20">
-              <h2 className="font-display font-bold text-2xl text-[#2E5AAC]">
+            <div className="flex justify-between items-center p-4 md:p-6 border-b border-[#2E5AAC]/20">
+              <h2 className="font-display font-bold text-xl md:text-2xl text-[#2E5AAC]">
                 {destination} - 3 Day Journey
               </h2>
               <div className="flex gap-2">
@@ -113,28 +120,28 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
             </div>
             
             {/* Content Area */}
-            <div className="h-[calc(100%-88px)] overflow-y-auto">
+            <div className="h-[calc(100%-88px)] overflow-y-auto cursor-auto">
               {currentStep < 3 ? (
                 /* Timeline View */
                 <div className="p-6">
                   {/* Timeline Progress */}
                   <div className="flex justify-center mb-8">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-3 md:space-x-4">
                       {timelineData.map((_, index) => (
                         <div key={index} className="flex items-center">
                           <motion.div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-white ${
+                            className={`w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-white ${
                               index <= currentStep ? 'bg-[#2E5AAC]' : 'bg-gray-400'
                             }`}
                             animate={{
-                              scale: index === currentStep ? 1.2 : 1,
+                              scale: index === currentStep ? 1.15 : 1,
                               boxShadow: index === currentStep ? '0 0 20px rgba(46, 90, 172, 0.5)' : '0 0 0px transparent'
                             }}
                           >
                             {index + 1}
                           </motion.div>
                           {index < timelineData.length - 1 && (
-                            <div className={`w-20 h-1 mx-2 ${index < currentStep ? 'bg-[#2E5AAC]' : 'bg-gray-300'}`} />
+                            <div className={`w-12 md:w-20 h-1 mx-2 ${index < currentStep ? 'bg-[#2E5AAC]' : 'bg-gray-300'}`} />
                           )}
                         </div>
                       ))}
@@ -150,16 +157,16 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h3 className="font-display font-bold text-3xl text-[#2E5AAC] mb-4">
+                    <h3 className="font-display font-bold text-2xl md:text-3xl text-[#2E5AAC] mb-4">
                       Day {timelineData[currentStep].day}: {timelineData[currentStep].title}
                     </h3>
                     
-                    <div className="bg-white/30 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                    <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 md:p-6 shadow-lg">
                       <ul className="space-y-3">
                         {timelineData[currentStep].activities.map((activity, index) => (
                           <motion.li
                             key={index}
-                            className="flex items-center text-gray-800 text-lg"
+                            className="flex items-center text-gray-800 text-base md:text-lg"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}

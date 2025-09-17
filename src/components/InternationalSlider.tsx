@@ -109,7 +109,7 @@ export const InternationalSlider = () => {
           </p>
         </motion.div>
 
-        <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh] rounded-2xl lg:rounded-3xl overflow-hidden">
+        <div className="relative h-[70vh] sm:h-[70vh] lg:h-[70vh] rounded-2xl lg:rounded-3xl overflow-hidden">
           {/* Background Slides */}
           <AnimatePresence mode="wait">
             {internationalDestinations.map((destination, index) => (
@@ -144,7 +144,7 @@ export const InternationalSlider = () => {
           </AnimatePresence>
 
           {/* Content Overlay */}
-          <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24">
             <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Text Content */}
               <motion.div
@@ -211,7 +211,7 @@ export const InternationalSlider = () => {
                     </div>
 
                     {/* CTA */}
-                    <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex flex-col sm:flex-row md:flex-nowrap gap-3">
                       <motion.button
                         className="px-6 py-3 bg-accent-1/20 border border-accent-1/50 hover:bg-accent-1/30 hover:border-accent-1 text-white rounded-xl font-semibold transition-all flex items-center justify-center space-x-2"
                         onClick={() => setTimelineModal({ isOpen: true, destination: internationalDestinations[currentSlide].name })}
@@ -221,7 +221,6 @@ export const InternationalSlider = () => {
                         <span>Explore Journey</span>
                         <span>→</span>
                       </motion.button>
-                      
                       <motion.button
                         className="px-6 py-3 bg-green-500/20 border border-green-500/50 hover:bg-green-500/30 hover:border-green-500 text-white rounded-xl font-semibold transition-all flex items-center justify-center space-x-2"
                         whileHover={{ scale: 1.02, y: -2 }}
@@ -315,24 +314,6 @@ export const InternationalSlider = () => {
             <ChevronRight size={24} />
           </motion.button>
 
-          {/* Dots Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-            <div className="flex space-x-2">
-              {internationalDestinations.map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide 
-                      ? 'bg-accent-2 w-8' 
-                      : 'bg-white/30 hover:bg-white/50'
-                  }`}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.8 }}
-                />
-              ))}
-            </div>
-          </div>
         </div>
       </div>
       
