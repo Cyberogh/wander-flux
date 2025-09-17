@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Users, MapPin, Send } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
@@ -22,6 +22,24 @@ export const BookingWidget = () => {
   const [adults, setAdults] = useState(2);
   const [kids, setKids] = useState(0);
   const [isPeopleOpen, setIsPeopleOpen] = useState(false);
+  
+  const destinationRef = useRef<HTMLDivElement>(null);
+  const peopleRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (destinationRef.current && !destinationRef.current.contains(event.target as Node)) {
+        setIsDestinationOpen(false);
+      }
+      if (peopleRef.current && !peopleRef.current.contains(event.target as Node)) {
+        setIsPeopleOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -78,7 +96,7 @@ export const BookingWidget = () => {
 
       <div className="space-y-4">
         {/* Destination Selector */}
-        <div className="relative">
+        <div className="relative" ref={destinationRef}>
           <motion.button
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors"
             onClick={() => setIsDestinationOpen(!isDestinationOpen)}
@@ -100,7 +118,7 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isDestinationOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl max-h-64 overflow-y-auto"
                 initial={{ opacity: 0, y: -10, rotateX: -10 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 exit={{ opacity: 0, y: -10, rotateX: -10 }}
@@ -108,42 +126,46 @@ export const BookingWidget = () => {
               >
                 <div className="space-y-3">
                   <div>
-                    <h4 className="text-accent-1 font-semibold mb-2">National</h4>
-                    {nationalDestinations.map((dest, index) => (
-                      <motion.button
-                        key={dest}
-                        className="block w-full text-left p-2 text-white/80 hover:text-accent-1 hover:bg-white/5 rounded-lg transition-colors"
-                        onClick={() => {
-                          setSelectedDestination(dest);
-                          setIsDestinationOpen(false);
-                        }}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        whileHover={{ x: 5 }}
-                      >
-                        {dest}
-                      </motion.button>
-                    ))}
+                    <h4 className="text-accent-1 font-semibold mb-2 sticky top-0 bg-surface-700 py-1">National</h4>
+                    <div className="space-y-1">
+                      {nationalDestinations.map((dest, index) => (
+                        <motion.button
+                          key={dest}
+                          className="block w-full text-left p-2 text-white/80 hover:text-accent-1 hover:bg-white/5 rounded-lg transition-colors"
+                          onClick={() => {
+                            setSelectedDestination(dest);
+                            setIsDestinationOpen(false);
+                          }}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          whileHover={{ x: 5 }}
+                        >
+                          {dest}
+                        </motion.button>
+                      ))}
+                    </div>
                   </div>
                   <div>
-                    <h4 className="text-accent-2 font-semibold mb-2">International</h4>
-                    {internationalDestinations.map((dest, index) => (
-                      <motion.button
-                        key={dest}
-                        className="block w-full text-left p-2 text-white/80 hover:text-accent-2 hover:bg-white/5 rounded-lg transition-colors"
-                        onClick={() => {
-                          setSelectedDestination(dest);
-                          setIsDestinationOpen(false);
-                        }}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (nationalDestinations.length + index) * 0.05 }}
-                        whileHover={{ x: 5 }}
-                      >
-                        {dest}
-                      </motion.button>
-                    ))}
+                    <h4 className="text-accent-2 font-semibold mb-2 sticky top-0 bg-surface-700 py-1">International</h4>
+                    <div className="space-y-1">
+                      {internationalDestinations.map((dest, index) => (
+                        <motion.button
+                          key={dest}
+                          className="block w-full text-left p-2 text-white/80 hover:text-accent-2 hover:bg-white/5 rounded-lg transition-colors"
+                          onClick={() => {
+                            setSelectedDestination(dest);
+                            setIsDestinationOpen(false);
+                          }}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: (nationalDestinations.length + index) * 0.05 }}
+                          whileHover={{ x: 5 }}
+                        >
+                          {dest}
+                        </motion.button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -198,7 +220,7 @@ export const BookingWidget = () => {
         </div>
 
         {/* People Selector */}
-        <div className="relative">
+        <div className="relative" ref={peopleRef}>
           <motion.button
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors"
             onClick={() => setIsPeopleOpen(!isPeopleOpen)}

@@ -70,6 +70,7 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          style={{ cursor: 'auto' }}
         >
           {/* Backdrop */}
           <motion.div
@@ -87,6 +88,8 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, scale: 0.9, rotateX: -10 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            style={{ cursor: 'auto' }}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex justify-between items-center p-6 border-b border-[#2E5AAC]/20">

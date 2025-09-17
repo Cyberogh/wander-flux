@@ -144,10 +144,11 @@ export const InternationalSlider = () => {
           </AnimatePresence>
 
           {/* Content Overlay */}
-          <div className="relative z-10 h-full flex items-center">
-            <div className="max-w-4xl mx-auto px-8 grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Text Content */}
               <motion.div
+                className="text-center lg:text-left"
                 style={{
                   x: mousePosition.x * -30,
                   y: mousePosition.y * -15,
@@ -169,20 +170,20 @@ export const InternationalSlider = () => {
                       </span>
                     </div>
 
-                    <h3 className="font-display font-bold text-5xl text-white mb-6">
+                    <h3 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-4 lg:mb-6">
                       {internationalDestinations[currentSlide].name}
                     </h3>
 
-                    <p className="text-lg text-white/90 mb-8 leading-relaxed">
+                    <p className="text-base sm:text-lg text-white/90 mb-6 lg:mb-8 leading-relaxed">
                       {internationalDestinations[currentSlide].description}
                     </p>
 
                     {/* Experiences */}
-                    <div className="flex flex-wrap gap-2 mb-8">
+                    <div className="flex flex-wrap gap-2 mb-6 lg:mb-8 justify-center lg:justify-start">
                       {internationalDestinations[currentSlide].experiences.map((experience, index) => (
                         <motion.span
                           key={experience}
-                          className="px-4 py-2 glass rounded-full text-sm text-white border border-white/20"
+                          className="px-3 py-1 sm:px-4 sm:py-2 glass rounded-full text-xs sm:text-sm text-white border border-white/20"
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: index * 0.1 }}
@@ -193,7 +194,7 @@ export const InternationalSlider = () => {
                     </div>
 
                     {/* Stats */}
-                    <div className="flex items-center space-x-6 mb-8">
+                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-2 sm:space-y-0 sm:space-x-6 mb-6 lg:mb-8">
                       <div className="flex items-center space-x-2">
                         <Star size={18} className="text-gold fill-gold" />
                         <span className="text-white font-semibold">
@@ -204,7 +205,7 @@ export const InternationalSlider = () => {
                         <Users size={18} className="text-accent-2" />
                         <span className="text-white">Up to 8 guests</span>
                       </div>
-                      <div className="text-2xl font-bold text-accent-2">
+                      <div className="text-xl sm:text-2xl font-bold text-accent-2">
                         {internationalDestinations[currentSlide].price}
                       </div>
                     </div>
@@ -212,20 +213,22 @@ export const InternationalSlider = () => {
                     {/* CTA */}
                     <div className="flex flex-col sm:flex-row gap-3">
                       <motion.button
-                        className="flex-1 btn-hero bg-accent-1/20 border-accent-1/50 hover:bg-accent-1/30 hover:border-accent-1 magnetic"
+                        className="px-6 py-3 bg-accent-1/20 border border-accent-1/50 hover:bg-accent-1/30 hover:border-accent-1 text-white rounded-xl font-semibold transition-all flex items-center justify-center space-x-2"
                         onClick={() => setTimelineModal({ isOpen: true, destination: internationalDestinations[currentSlide].name })}
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Explore Journey →
+                        <span>Explore Journey</span>
+                        <span>→</span>
                       </motion.button>
                       
                       <motion.button
-                        className="flex-1 btn-hero bg-green-500/20 border-green-500/50 hover:bg-green-500/30 hover:border-green-500 magnetic"
+                        className="px-6 py-3 bg-green-500/20 border border-green-500/50 hover:bg-green-500/30 hover:border-green-500 text-white rounded-xl font-semibold transition-all flex items-center justify-center space-x-2"
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Book Experience →
+                        <span>Book Experience</span>
+                        <span>→</span>
                       </motion.button>
                     </div>
                   </motion.div>
@@ -242,7 +245,7 @@ export const InternationalSlider = () => {
                 transition={{ duration: 0.6 }}
               >
                 <motion.div
-                  className="card-premium backdrop-blur-xl bg-white/5 border border-white/10"
+                  className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6"
                   animate={{ 
                     rotateY: mousePosition.x * 5,
                     rotateX: mousePosition.y * -5,
@@ -293,42 +296,41 @@ export const InternationalSlider = () => {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation - Side Arrows */}
+          <motion.button
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 p-4 glass rounded-full text-white hover:text-accent-2 transition-colors z-20"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ChevronLeft size={24} />
+          </motion.button>
+
+          <motion.button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 p-4 glass rounded-full text-white hover:text-accent-2 transition-colors z-20"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ChevronRight size={24} />
+          </motion.button>
+
+          {/* Dots Indicator */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-            <div className="flex items-center space-x-4">
-              <motion.button
-                onClick={prevSlide}
-                className="p-3 glass rounded-full text-white hover:text-accent-2 transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <ChevronLeft size={20} />
-              </motion.button>
-
-              <div className="flex space-x-2">
-                {internationalDestinations.map((_, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentSlide 
-                        ? 'bg-accent-2 w-8' 
-                        : 'bg-white/30 hover:bg-white/50'
-                    }`}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.8 }}
-                  />
-                ))}
-              </div>
-
-              <motion.button
-                onClick={nextSlide}
-                className="p-3 glass rounded-full text-white hover:text-accent-2 transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <ChevronRight size={20} />
-              </motion.button>
+            <div className="flex space-x-2">
+              {internationalDestinations.map((_, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide 
+                      ? 'bg-accent-2 w-8' 
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
+                />
+              ))}
             </div>
           </div>
         </div>
