@@ -19,7 +19,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 1,
     name: "Munsiyari",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1683700916507-93d49889bacc?w=800&h=600&fit=crop",
     description: "Winding roads, hot chai, and sunsets that stay with you.",
     duration: "3 days",
     price: "₹15,000",
@@ -29,7 +29,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 2,
     name: "Nainital to Mukteshwar",
-    image: "https://images.unsplash.com/photo-1544557962-7b21e99d8a96?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1683567386578-738d9cc9b62c?w=800&h=600&fit=crop",
     description: "Calm lakes and quiet hills to slow down in.",
     duration: "3 days",
     price: "₹12,000",
@@ -39,7 +39,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 3,
     name: "Tirthan Jibhi - Manali",
-    image: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1712388430474-ace0c16051e2?w=800&h=600&fit=crop",
     description: "Waterfalls, pine trails, and cozy mountain vibes.",
     duration: "3 days",
     price: "₹18,000",
@@ -49,7 +49,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 4,
     name: "Tawang Arunachal Pradesh",
-    image: "https://images.unsplash.com/photo-1476984251899-8d8ec5d78d51?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1626761627604-f27d98885f4b?w=800&h=600&fit=crop",
     description: "Monasteries, mountain passes, and endless views.",
     duration: "3 days",
     price: "₹14,000",
@@ -59,7 +59,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 5,
     name: "Mussoorie - Landour - Rishikesh",
-    image: "https://images.unsplash.com/photo-1476984251899-8d8ec5d78d51?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1583143874828-de3d288be51a?w=800&h=600&fit=crop",
     description: "Colonial charm, lazy walks, and a dash of adventure.",
     duration: "3 days",
     price: "₹14,000",
@@ -69,7 +69,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 6,
     name: "Shillong",
-    image: "https://images.unsplash.com/photo-1476984251899-8d8ec5d78d51?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1746339031227-fe31bf4c0955?w=800&h=600&fit=crop",
     description: "Music, mist, and a hill town that feels alive.",
     duration: "3 days",
     price: "₹14,000",
