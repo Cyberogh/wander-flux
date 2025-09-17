@@ -55,7 +55,7 @@ const nationalDestinations: Destination[] = [
     price: "₹14,000",
     rating: 4.6,
     highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
-  }
+  },
   {
     id: 5,
     name: "Mussoorie - Landour - Rishikesh",
@@ -65,7 +65,7 @@ const nationalDestinations: Destination[] = [
     price: "₹14,000",
     rating: 4.6,
     highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
-  }
+  },
   {
     id: 6,
     name: "Shillong",
