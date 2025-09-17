@@ -157,15 +157,20 @@ export const DestinationCarousel = () => {
           {/* Cards */}
           <div className="overflow-hidden">
             <motion.div
-              className="flex gap-6"
-              animate={{ x: `-${currentIndex * slidePercentage}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              style={{ width: `${(nationalDestinations.length / cardsPerView) * 100}%` }}
+  className="flex gap-6"
+  animate={{ x: `-${currentIndex * 100}%` }}
+  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+  style={{
+    width: `${maxSlides * 100}%`, // Each slide is 100% of view
+  }}
+>
+
             >
               {nationalDestinations.map((destination) => (
                 <motion.div
                   key={destination.id}
-                  className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3"
+className="flex-shrink-0 w-full"
+style={{ width: `${100 / cardsPerView}%` }}
                   onHoverStart={() => setHoveredCard(destination.id)}
                   onHoverEnd={() => setHoveredCard(null)}
                 >
