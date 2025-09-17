@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Clock, Star } from 'lucide-react';
 import { TimelineModal } from './TimelineModal';
 
@@ -13,7 +13,6 @@ interface Destination {
   rating: number;
   highlights: string[];
 }
-
 
 const nationalDestinations: Destination[] = [
   {
@@ -78,22 +77,47 @@ const nationalDestinations: Destination[] = [
   }
 ];
 
+// Custom hook to detect number of cards per view based on screen width
+const useCardsPerView = () => {
+  const [cards, setCards] = useState(1);
+
+  useEffect(() => {
+    const updateCards = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) setCards(3); // lg
+      else if (width >= 768) setCards(2); // md
+      else setCards(1); // sm
+    };
+
+    updateCards(); // Initial
+    window.addEventListener('resize', updateCards);
+    return () => window.removeEventListener('resize', updateCards);
+  }, []);
+
+  return cards;
+};
+
 export const DestinationCarousel = () => {
+  const cardsPerView = useCardsPerView();
+  const maxSlides = Math.ceil(nationalDestinations.length / cardsPerView);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timelineModal, setTimelineModal] = useState({ isOpen: false, destination: '' });
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.max(1, nationalDestinations.length - 2));
+    setCurrentIndex((prev) => (prev + 1) % maxSlides);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.max(1, nationalDestinations.length - 2)) % Math.max(1, nationalDestinations.length - 2));
+    setCurrentIndex((prev) => (prev - 1 + maxSlides) % maxSlides);
   };
+
+  const slidePercentage = 100 / cardsPerView;
 
   return (
     <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Heading */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -130,12 +154,13 @@ export const DestinationCarousel = () => {
             <ChevronRight size={24} />
           </motion.button>
 
-          {/* Cards Container */}
+          {/* Cards */}
           <div className="overflow-hidden">
             <motion.div
               className="flex gap-6"
-              animate={{ x: `-${currentIndex * 33.333}%` }}
+              animate={{ x: `-${currentIndex * slidePercentage}%` }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              style={{ width: `${(nationalDestinations.length / cardsPerView) * 100}%` }}
             >
               {nationalDestinations.map((destination) => (
                 <motion.div
@@ -161,7 +186,7 @@ export const DestinationCarousel = () => {
                         transition={{ duration: 0.6 }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-bg-900/60 to-transparent" />
-                      
+
                       {/* Price Badge */}
                       <motion.div
                         className="absolute top-4 right-4 bg-accent-1 text-bg-900 px-3 py-1 rounded-full font-semibold text-sm"
@@ -236,7 +261,7 @@ export const DestinationCarousel = () => {
 
           {/* Pagination Dots */}
           <div className="flex justify-center mt-12 space-x-2">
-            {Array.from({ length: Math.max(1, nationalDestinations.length - 2) }).map((_, index) => (
+            {Array.from({ length: maxSlides }).map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
@@ -252,7 +277,7 @@ export const DestinationCarousel = () => {
           </div>
         </div>
       </div>
-      
+
       <TimelineModal 
         isOpen={timelineModal.isOpen}
         onClose={() => setTimelineModal({ isOpen: false, destination: '' })}
