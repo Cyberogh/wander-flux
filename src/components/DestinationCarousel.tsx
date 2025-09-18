@@ -187,113 +187,89 @@ export const DestinationCarousel = () => {
           </motion.button>
 
           {/* Cards */}
-          <div className="overflow-hidden">
-            <motion.div
-  className="flex gap-4 md:gap-6"
-  animate={{ x: `-${currentIndex * 100}%` }}
-  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-  style={{
-    width: `${maxSlides * 100}%`, // Each slide is 100% of view
-  }}
->
-              {nationalDestinations.map((destination) => (
-                <motion.div
-                  key={destination.id}
-className="flex-shrink-0"
-style={{ width: `${100 / cardsPerView}%` }}
-                  onHoverStart={() => setHoveredCard(destination.id)}
-                  onHoverEnd={() => setHoveredCard(null)}
-                >
-                 <motion.div
-  className="destination-card group cursor-pointer h-full relative z-10"
-  whileHover={{ y: -8, scale: 1.02 }}
-  transition={{ duration: 0.3 }}
->
+          {/* Cards */}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  {nationalDestinations.map((destination) => (
+    <motion.div
+      key={destination.id}
+      className="destination-card group cursor-pointer h-full relative z-10 bg-bg-800 rounded-xl md:rounded-2xl p-4 flex flex-col"
+      whileHover={{ y: -6, scale: 1.01 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Image */}
+      <div className="relative overflow-hidden rounded-lg md:rounded-xl mb-3 aspect-[4/3]">
+        <motion.img
+          src={destination.image}
+          alt={destination.name}
+          className="w-full h-full object-cover"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.6 }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-900/60 to-transparent" />
 
-                    {/* Image */}
-                    <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-6 aspect-[16/10]">
-                      <motion.img
-                        src={destination.image}
-                        alt={destination.name}
-                        className="w-full h-full object-cover"
-                        animate={{
-                          scale: hoveredCard === destination.id ? 1.1 : 1,
-                        }}
-                        transition={{ duration: 0.6 }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-bg-900/60 to-transparent" />
+        {/* Price Badge */}
+        <div className="absolute top-2 right-2 bg-accent-1 text-bg-900 px-2 py-0.5 rounded-full font-semibold text-[11px]">
+          {destination.price}
+        </div>
 
-                      {/* Price Badge */}
-                      <motion.div
-                        className="absolute top-3 right-3 bg-accent-1 text-bg-900 px-2.5 py-1 rounded-full font-semibold text-xs md:text-sm"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 }}
-                      >
-                        {destination.price}
-                      </motion.div>
-
-                      {/* Floating Icons */}
-                      <motion.div
-                        className="absolute bottom-4 left-4 flex items-center space-x-4 text-white"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                        <div className="flex items-center space-x-1">
-                          <Clock size={16} />
-                          <span className="text-sm">{destination.duration}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Star size={16} className="text-gold fill-gold" />
-                          <span className="text-sm">{destination.rating}</span>
-                        </div>
-                      </motion.div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-2">
-                        <MapPin size={18} className="text-accent-1" />
-                        <h3 className="font-display font-bold text-lg md:text-xl text-white">
-                          {destination.name}
-                        </h3>
-                      </div>
-
-                      <p className="text-white/80 leading-relaxed text-sm md:text-base">
-                        {destination.description}
-                      </p>
-
-                      {/* Highlights */}
-                      <div className="flex flex-wrap gap-2">
-                        {destination.highlights.map((highlight, index) => (
-                          <motion.span
-                            key={highlight}
-                            className="px-3 py-1 bg-white/10 rounded-full text-xs text-white/90"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 * index }}
-                          >
-                            {highlight}
-                          </motion.span>
-                        ))}
-                      </div>
-
-                      {/* CTA */}
-                      <motion.button
-                        className="w-full btn-hero justify-center mt-4 md:mt-6 group-hover:bg-accent-1/20 group-hover:border-accent-1"
-                        onClick={() => setTimelineModal({ isOpen: true, destination: destination.name, timeline: buildTimeline(destination) })}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Explore Journey →
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </motion.div>
+        {/* Floating Icons */}
+        <div className="absolute bottom-3 left-3 flex items-center space-x-3 text-white text-xs">
+          <div className="flex items-center space-x-1">
+            <Clock size={14} />
+            <span>{destination.duration}</span>
           </div>
+          <div className="flex items-center space-x-1">
+            <Star size={14} className="text-gold fill-gold" />
+            <span>{destination.rating}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-grow space-y-3">
+        <div className="flex items-center space-x-2">
+          <MapPin size={16} className="text-accent-1" />
+          <h3 className="font-display font-bold text-base md:text-lg text-white">
+            {destination.name}
+          </h3>
+        </div>
+
+        <p className="text-white/80 leading-relaxed text-xs md:text-sm flex-grow">
+          {destination.description}
+        </p>
+
+        {/* Highlights */}
+        <div className="flex flex-wrap gap-2">
+          {destination.highlights.map((highlight, index) => (
+            <span
+              key={highlight}
+              className="px-2 py-0.5 bg-white/10 rounded-full text-[11px] text-white/90"
+            >
+              {highlight}
+            </span>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <motion.button
+          className="w-full btn-hero justify-center mt-3 md:mt-4 group-hover:bg-accent-1/20 group-hover:border-accent-1 text-sm py-1.5"
+          onClick={() =>
+            setTimelineModal({
+              isOpen: true,
+              destination: destination.name,
+              timeline: buildTimeline(destination),
+            })
+          }
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Explore Journey →
+        </motion.button>
+      </div>
+    </motion.div>
+  ))}
+</div>
+
 
           {/* Pagination Dots */}
           <div className="flex justify-center mt-12 space-x-2">
