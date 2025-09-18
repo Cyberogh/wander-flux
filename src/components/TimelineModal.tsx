@@ -2,10 +2,17 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowLeft, Clock, MapPin, CheckCircle, XCircle, Backpack } from 'lucide-react';
 
+interface TimelineDay {
+  day: number;
+  title: string;
+  activities: string[];
+}
+
 interface TimelineModalProps {
   isOpen: boolean;
   onClose: () => void;
   destination: string;
+  timeline?: TimelineDay[];
 }
 
 const timelineData = [
@@ -59,16 +66,9 @@ const thingsToCarry = [
   "Sunscreen"
 ];
 
-export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalProps) => {
+export const TimelineModal = ({ isOpen, onClose, destination, timeline }: TimelineModalProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  
-  // Disable custom cursor while timeline is open
-  useEffect(() => {
-    document.body.setAttribute('data-timeline-open', 'true');
-    return () => {
-      document.body.removeAttribute('data-timeline-open');
-    };
-  }, []);
+  const data = timeline && timeline.length ? timeline : timelineData;
   
   return (
     <AnimatePresence>
@@ -127,7 +127,7 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
                   {/* Timeline Progress */}
                   <div className="flex justify-center mb-8">
                     <div className="flex items-center space-x-3 md:space-x-4">
-                      {timelineData.map((_, index) => (
+                      {data.map((_, index) => (
                         <div key={index} className="flex items-center">
                           <motion.div
                             className={`w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-white ${
@@ -140,7 +140,7 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
                           >
                             {index + 1}
                           </motion.div>
-                          {index < timelineData.length - 1 && (
+                          {index < data.length - 1 && (
                             <div className={`w-12 md:w-20 h-1 mx-2 ${index < currentStep ? 'bg-[#2E5AAC]' : 'bg-gray-300'}`} />
                           )}
                         </div>
@@ -158,12 +158,12 @@ export const TimelineModal = ({ isOpen, onClose, destination }: TimelineModalPro
                     transition={{ duration: 0.5 }}
                   >
                     <h3 className="font-display font-bold text-2xl md:text-3xl text-[#2E5AAC] mb-4">
-                      Day {timelineData[currentStep].day}: {timelineData[currentStep].title}
+                      Day {data[currentStep].day}: {data[currentStep].title}
                     </h3>
                     
                     <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 md:p-6 shadow-lg">
                       <ul className="space-y-3">
-                        {timelineData[currentStep].activities.map((activity, index) => (
+                        {data[currentStep].activities.map((activity, index) => (
                           <motion.li
                             key={index}
                             className="flex items-center text-gray-800 text-base md:text-lg"

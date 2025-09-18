@@ -57,9 +57,15 @@ const internationalDestinations: InternationalDestination[] = [
   }
 ];
 
+const buildIntlTimeline = (d: InternationalDestination) => [
+  { day: 1, title: 'Arrival & City Tour', activities: ['Hotel check-in', `Explore ${d.name} highlights`, d.experiences[0] || 'Local market'] },
+  { day: 2, title: 'Adventure & Culture', activities: [d.experiences[1] || 'Adventure activity', d.experiences[2] || 'Cultural stop', 'Sunset viewpoint'] },
+  { day: 3, title: 'Relaxation & Departure', activities: ['Beach/relaxation', d.experiences[3] || 'Brunch', 'Airport transfer'] },
+];
+
 export const InternationalSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [timelineModal, setTimelineModal] = useState({ isOpen: false, destination: '' });
+  const [timelineModal, setTimelineModal] = useState<{ isOpen: boolean; destination: string; timeline?: { day: number; title: string; activities: string[] }[] }>({ isOpen: false, destination: '' });
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -147,8 +153,8 @@ export const InternationalSlider = () => {
           <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24">
             <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Text Content */}
-              <motion.div
-                className="text-center lg:text-left"
+               <motion.div
+                className="text-center lg:text-left transform scale-95 sm:scale-100 origin-bottom-left"
                 style={{
                   x: mousePosition.x * -30,
                   y: mousePosition.y * -15,
@@ -214,7 +220,7 @@ export const InternationalSlider = () => {
                     <div className="flex flex-col sm:flex-row md:flex-nowrap gap-3">
                       <motion.button
                         className="px-6 py-3 bg-accent-1/20 border border-accent-1/50 hover:bg-accent-1/30 hover:border-accent-1 text-white rounded-xl font-semibold transition-all flex items-center justify-center space-x-2"
-                        onClick={() => setTimelineModal({ isOpen: true, destination: internationalDestinations[currentSlide].name })}
+                        onClick={() => setTimelineModal({ isOpen: true, destination: internationalDestinations[currentSlide].name, timeline: buildIntlTimeline(internationalDestinations[currentSlide]) })}
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -319,8 +325,9 @@ export const InternationalSlider = () => {
       
       <TimelineModal 
         isOpen={timelineModal.isOpen}
-        onClose={() => setTimelineModal({ isOpen: false, destination: '' })}
+        onClose={() => setTimelineModal({ isOpen: false, destination: '', timeline: undefined })}
         destination={timelineModal.destination}
+        timeline={timelineModal.timeline}
       />
     </section>
   );

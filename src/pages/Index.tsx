@@ -1,4 +1,3 @@
-import { CustomCursor } from '@/components/CustomCursor';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { DestinationCarousel } from '@/components/DestinationCarousel';
@@ -9,7 +8,7 @@ import { TrekkingSection } from '@/components/TrekkingSection';
 const Index = () => {
   return (
     <div className="min-h-screen bg-bg-900 relative overflow-x-hidden">
-      <CustomCursor />
+      
       <Header />
       
       <main>

@@ -84,7 +84,8 @@ const useCardsPerView = () => {
   useEffect(() => {
     const updateCards = () => {
       const width = window.innerWidth;
-      if (width >= 1024) setCards(3); // lg
+      if (width >= 1280) setCards(4); // xl and above
+      else if (width >= 1024) setCards(3); // lg
       else if (width >= 768) setCards(2); // md
       else setCards(1); // sm
     };
@@ -97,11 +98,42 @@ const useCardsPerView = () => {
   return cards;
 };
 
+// Build a simple per-destination 3-day timeline
+const buildTimeline = (d: Destination) => [
+  {
+    day: 1,
+    title: 'Arrival & Local Walks',
+    activities: [
+      `Check-in and welcome in ${d.name}`,
+      `Scenic strolls and cafe hopping`,
+      d.highlights[0] || 'City orientation'
+    ]
+  },
+  {
+    day: 2,
+    title: 'Adventure & Culture',
+    activities: [
+      'Guided experience with local expert',
+      d.highlights[1] || 'Local sightseeing',
+      d.highlights[2] || 'Evening bonfire'
+    ]
+  },
+  {
+    day: 3,
+    title: 'Relaxation & Departure',
+    activities: [
+      'Sunrise viewpoint / leisure morning',
+      d.highlights[3] || 'Souvenir shopping',
+      'Departure'
+    ]
+  }
+];
+ 
 export const DestinationCarousel = () => {
   const cardsPerView = useCardsPerView();
   const maxSlides = Math.ceil(nationalDestinations.length / cardsPerView);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timelineModal, setTimelineModal] = useState({ isOpen: false, destination: '' });
+  const [timelineModal, setTimelineModal] = useState<{ isOpen: boolean; destination: string; timeline?: { day: number; title: string; activities: string[] }[] }>({ isOpen: false, destination: '' });
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const nextSlide = () => {
@@ -157,15 +189,13 @@ export const DestinationCarousel = () => {
           {/* Cards */}
           <div className="overflow-hidden">
             <motion.div
-  className="flex gap-6"
+  className="flex gap-4 md:gap-6"
   animate={{ x: `-${currentIndex * 100}%` }}
   transition={{ type: "spring", stiffness: 300, damping: 30 }}
   style={{
     width: `${maxSlides * 100}%`, // Each slide is 100% of view
   }}
 >
-
-            >
               {nationalDestinations.map((destination) => (
                 <motion.div
                   key={destination.id}
@@ -181,7 +211,7 @@ style={{ width: `${100 / cardsPerView}%` }}
 >
 
                     {/* Image */}
-                    <div className="relative overflow-hidden rounded-2xl mb-6 aspect-[4/3]">
+                    <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-6 aspect-[16/10]">
                       <motion.img
                         src={destination.image}
                         alt={destination.name}
@@ -195,7 +225,7 @@ style={{ width: `${100 / cardsPerView}%` }}
 
                       {/* Price Badge */}
                       <motion.div
-                        className="absolute top-4 right-4 bg-accent-1 text-bg-900 px-3 py-1 rounded-full font-semibold text-sm"
+                        className="absolute top-3 right-3 bg-accent-1 text-bg-900 px-2.5 py-1 rounded-full font-semibold text-xs md:text-sm"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
@@ -225,12 +255,12 @@ style={{ width: `${100 / cardsPerView}%` }}
                     <div className="space-y-4">
                       <div className="flex items-center space-x-2">
                         <MapPin size={18} className="text-accent-1" />
-                        <h3 className="font-display font-bold text-xl text-white">
+                        <h3 className="font-display font-bold text-lg md:text-xl text-white">
                           {destination.name}
                         </h3>
                       </div>
 
-                      <p className="text-white/80 leading-relaxed">
+                      <p className="text-white/80 leading-relaxed text-sm md:text-base">
                         {destination.description}
                       </p>
 
@@ -251,8 +281,8 @@ style={{ width: `${100 / cardsPerView}%` }}
 
                       {/* CTA */}
                       <motion.button
-                        className="w-full btn-hero justify-center mt-6 group-hover:bg-accent-1/20 group-hover:border-accent-1"
-                        onClick={() => setTimelineModal({ isOpen: true, destination: destination.name })}
+                        className="w-full btn-hero justify-center mt-4 md:mt-6 group-hover:bg-accent-1/20 group-hover:border-accent-1"
+                        onClick={() => setTimelineModal({ isOpen: true, destination: destination.name, timeline: buildTimeline(destination) })}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -286,8 +316,9 @@ style={{ width: `${100 / cardsPerView}%` }}
 
       <TimelineModal 
         isOpen={timelineModal.isOpen}
-        onClose={() => setTimelineModal({ isOpen: false, destination: '' })}
+        onClose={() => setTimelineModal({ isOpen: false, destination: '', timeline: undefined })}
         destination={timelineModal.destination}
+        timeline={timelineModal.timeline}
       />
     </section>
   );
