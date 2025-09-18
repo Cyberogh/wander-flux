@@ -74,16 +74,8 @@ All colors MUST be HSL.
     overflow-x: hidden;
   }
 
-  /* Custom cursor for desktop */
-  @media (hover: hover) {
-    * {
-      cursor: none;
-    }
-    
-    button, a, [role="button"] {
-      cursor: none;
-    }
-  }
+  /* Removed custom cursor to keep system cursor visible */
+
 
   /* Glass morphism utility */
   .glass {

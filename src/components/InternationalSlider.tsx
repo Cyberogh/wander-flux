@@ -154,7 +154,7 @@ export const InternationalSlider = () => {
             <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Text Content */}
                <motion.div
-                className="text-center lg:text-left transform scale-95 sm:scale-100 origin-bottom-left"
+                className="text-center lg:text-left transform scale-90 sm:scale-100 origin-bottom-left"
                 style={{
                   x: mousePosition.x * -30,
                   y: mousePosition.y * -15,
@@ -176,11 +176,11 @@ export const InternationalSlider = () => {
                       </span>
                     </div>
 
-                    <h3 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-4 lg:mb-6">
+                    <h3 className="font-display font-bold text-2xl sm:text-4xl lg:text-5xl text-white mb-4 lg:mb-6">
                       {internationalDestinations[currentSlide].name}
                     </h3>
 
-                    <p className="text-base sm:text-lg text-white/90 mb-6 lg:mb-8 leading-relaxed">
+                    <p className="text-sm sm:text-base text-white/90 mb-6 lg:mb-8 leading-relaxed">
                       {internationalDestinations[currentSlide].description}
                     </p>
 
@@ -189,7 +189,7 @@ export const InternationalSlider = () => {
                       {internationalDestinations[currentSlide].experiences.map((experience, index) => (
                         <motion.span
                           key={experience}
-                          className="px-3 py-1 sm:px-4 sm:py-2 glass rounded-full text-xs sm:text-sm text-white border border-white/20"
+                          className="px-2.5 py-1 sm:px-3.5 sm:py-1.5 glass rounded-full text-[11px] sm:text-sm text-white border border-white/20"
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: index * 0.1 }}
