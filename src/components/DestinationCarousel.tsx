@@ -18,7 +18,7 @@ const nationalDestinations: Destination[] = [
   {
     id: 1,
     name: "Munsiyari",
-    image: "https://images.unsplash.com/photo-1683700916507-93d49889bacc?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1683700916507-93d49889bacc?w=200&h=100&fit=crop",
     description: "Winding roads, hot chai, and sunsets that stay with you.",
     duration: "3 days",
     price: "₹15,000",
