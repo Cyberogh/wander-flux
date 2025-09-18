@@ -115,8 +115,8 @@ export const DestinationCarousel = () => {
   const slidePercentage = 100 / cardsPerView;
 
   return (
-    <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+  <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <motion.div
           className="text-center mb-16"
@@ -174,11 +174,12 @@ style={{ width: `${100 / cardsPerView}%` }}
                   onHoverStart={() => setHoveredCard(destination.id)}
                   onHoverEnd={() => setHoveredCard(null)}
                 >
-                  <motion.div
-                    className="destination-card group cursor-pointer h-full"
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                  >
+                 <motion.div
+  className="destination-card group cursor-pointer h-full relative z-10"
+  whileHover={{ y: -8, scale: 1.02 }}
+  transition={{ duration: 0.3 }}
+>
+
                     {/* Image */}
                     <div className="relative overflow-hidden rounded-2xl mb-6 aspect-[4/3]">
                       <motion.img
