@@ -23,7 +23,7 @@ const nationalDestinations: Destination[] = [
     duration: "3 days",
     price: "₹15,000",
     rating: 4.8,
-    highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
+    highlights: []
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const nationalDestinations: Destination[] = [
     duration: "3 days",
     price: "₹12,000",
     rating: 4.7,
-    highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
+    highlights: []
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const nationalDestinations: Destination[] = [
     duration: "3 days",
     price: "₹18,000",
     rating: 4.9,
-    highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
+    highlights: []
   },
   {
     id: 4,
@@ -53,7 +53,7 @@ const nationalDestinations: Destination[] = [
     duration: "3 days",
     price: "₹14,000",
     rating: 4.6,
-    highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
+    highlights: []
   },
   {
     id: 5,
@@ -63,7 +63,7 @@ const nationalDestinations: Destination[] = [
     duration: "3 days",
     price: "₹14,000",
     rating: 4.6,
-    highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
+    highlights: []
   },
   {
     id: 6,
@@ -73,68 +73,75 @@ const nationalDestinations: Destination[] = [
     duration: "3 days",
     price: "₹14,000",
     rating: 4.6,
-    highlights: ["4-star stay", "FREE Meals", "Bonfire", "Camping"]
+    highlights: []
   }
 ];
 
-// Custom hook to detect number of cards per view based on screen width
+// Itineraries for each destination
+const itineraries: Record<string, { day: number; title: string; activities: string[] }[]> = {
+  "Nainital to Mukteshwar": [
+    { day: 0, title: "Pickup from Lucknow", activities: ["Pickup from Lucknow Alambagh metro station at 10:30PM", "Overnight luxury bus journey to Kathgodam"]},
+    { day: 1, title: "Reach Kathgodam (Nainital)", activities: ["Reach Bhimtal, witness lakes Bhimtal & Sattal", "Stay at Bhimtal cottages/hotel", "Explore Nainital, Mall Road, Sattal, paragliding at Naukuchiyatal", "Evening bonfire and dinner"]},
+    { day: 2, title: "Mukteshwar", activities: ["Morning sunrise & breakfast", "Visit Baba Neem Karoli Ashram", "Riverside party", "Scenic sunset in Mukteshwar", "Overnight stay in jungle camp"]},
+    { day: 3, title: "Bhalughad Waterfall Trek & Return", activities: ["Checkout & trek to Bhalughad waterfall (1.5km)", "Evening return to Kathgodam", "Luxury bus back to Lucknow"]}
+  ],
+  "Munsiyari": [
+    { day: 0, title: "Pickup from Lucknow", activities: ["Pickup from Alambagh metro station at 10:30PM", "Overnight bus to Kathgodam"]},
+    { day: 1, title: "Kathgodam to Munsiyari", activities: ["Scenic drive via Pithoragarh", "Check-in, dinner and rest between snow-clad mountains"]},
+    { day: 2, title: "Khaliya Peak Trek", activities: ["Early breakfast", "Start Khaliya peak trek (10-12km)", "Reach zero point for mesmerizing views", "Return to stay, bonfire & dinner"]},
+    { day: 3, title: "Helicopter Ride & Return", activities: ["Breakfast", "Helicopter ride Munsiyari → Haldwani (45 mins)", "Explore Haldwani market or Nainital", "Evening bus back to Lucknow"]}
+  ],
+  "Mussoorie - Landour - Rishikesh": [
+    { day: 0, title: "Pickup from Lucknow", activities: ["Pickup from Lucknow Alambagh at 10PM", "Overnight bus to Dehradun"]},
+    { day: 1, title: "Dehradun – Mussoorie", activities: ["Reach Dehradun, breakfast enroute", "Check into Mussoorie stay", "Explore Landour, Lal Tibba, churches, cafés, Mall Road", "Evening games, music, dinner"]},
+    { day: 2, title: "Rishikesh", activities: ["Breakfast", "Move to Rishikesh, stay in riverside cottages", "Adventure sports: rafting, bungee, etc.", "Evening Ganga Aarti, bonfire & dinner"]},
+    { day: 3, title: "Hidden Rishikesh & Return", activities: ["Visit Patna waterfall, Beatles Ashram, Triveni Ghat", "Return to Dehradun", "Evening bus to Lucknow"]}
+  ],
+  "Tirthan Jibhi - Manali": [
+    { day: 1, title: "Lucknow to Delhi", activities: ["Overnight journey Lucknow → Delhi → Jibhi"]},
+    { day: 2, title: "Explore Jibhi", activities: ["Breakfast", "Explore Jibhi town, riverside cafés", "Evening bonfire & music"]},
+    { day: 3, title: "Jalori Pass & Serolsar Lake Trek", activities: ["Breakfast", "Drive to Jalori Pass", "Trek 9km to Serolsar Lake", "Dinner & rest"]},
+    { day: 4, title: "Rafting or Chehni Kothi Trek", activities: ["Breakfast", "Choose rafting / Chehni Kothi trek", "Evening departure from Jibhi"]},
+    { day: 5, title: "Delhi & Lucknow arrival", activities: ["Trip ends"]}
+  ],
+  "Tawang Arunachal Pradesh": [
+    { day: 1, title: "Guwahati to Dirang", activities: ["Breakfast", "Sightseeing: Kameng River, Tippi Orchid Park, Nichiphula Waterpark", "Overnight stay at Dirang"]},
+    { day: 2, title: "Dirang to Tawang", activities: ["Breakfast", "Sightseeing: Sela Pass, Sela Lake, Jaswant Garh War Memorial, Nuranang Falls", "Overnight stay at Tawang"]},
+    { day: 3, title: "Explore Tawang", activities: ["Sightseeing: Bumla Pass, Pangateng Lake, Madhuri Lake, Tawang Monastery, Buddha Statue, War Memorial", "Overnight stay at Tawang"]},
+    { day: 4, title: "Tawang to Dirang", activities: ["Breakfast", "Sightseeing: Sela Tunnel, Dirang Monastery, Sangti Valley", "Overnight stay at Dirang"]},
+    { day: 5, title: "Dirang to Guwahati", activities: ["Breakfast", "Sightseeing: Bomdila Monastery, Shergaon Hanging Bridge, Bhutan Border", "Return to Guwahati"]}
+  ],
+  "Shillong": [
+    { day: 1, title: "Lucknow to Shillong", activities: ["Overnight journey"]},
+    { day: 2, title: "Explore Shillong", activities: ["Breakfast", "Explore town, café hopping, riverside walks", "Evening bonfire & music"]},
+    { day: 3, title: "Shillong Lake Trek", activities: ["Breakfast", "Trek to Shillong Lake (5 hrs)", "Dinner & rest"]},
+    { day: 4, title: "Shillong trek or rafting", activities: ["Breakfast", "Choose rafting or trek", "Evening departure"]},
+    { day: 5, title: "Trip Ends", activities: ["Delhi & Lucknow arrival"]}
+  ]
+};
+
 const useCardsPerView = () => {
   const [cards, setCards] = useState(1);
-
   useEffect(() => {
     const updateCards = () => {
       const width = window.innerWidth;
-      if (width >= 1280) setCards(4); // xl and above
-      else if (width >= 1024) setCards(3); // lg
-      else if (width >= 768) setCards(2); // md
-      else setCards(1); // sm
+      if (width >= 1280) setCards(4);
+      else if (width >= 1024) setCards(3);
+      else if (width >= 768) setCards(2);
+      else setCards(1);
     };
-
-    updateCards(); // Initial
+    updateCards();
     window.addEventListener('resize', updateCards);
     return () => window.removeEventListener('resize', updateCards);
   }, []);
-
   return cards;
 };
 
-// Build a simple per-destination 3-day timeline
-const buildTimeline = (d: Destination) => [
-  {
-    day: 1,
-    title: 'Arrival & Local Walks',
-    activities: [
-      `Check-in and welcome in ${d.name}`,
-      `Scenic strolls and cafe hopping`,
-      d.highlights[0] || 'City orientation'
-    ]
-  },
-  {
-    day: 2,
-    title: 'Adventure & Culture',
-    activities: [
-      'Guided experience with local expert',
-      d.highlights[1] || 'Local sightseeing',
-      d.highlights[2] || 'Evening bonfire'
-    ]
-  },
-  {
-    day: 3,
-    title: 'Relaxation & Departure',
-    activities: [
-      'Sunrise viewpoint / leisure morning',
-      d.highlights[3] || 'Souvenir shopping',
-      'Departure'
-    ]
-  }
-];
- 
 export const DestinationCarousel = () => {
   const cardsPerView = useCardsPerView();
   const maxSlides = Math.ceil(nationalDestinations.length / cardsPerView);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timelineModal, setTimelineModal] = useState<{ isOpen: boolean; destination: string; timeline?: { day: number; title: string; activities: string[] }[] }>({ isOpen: false, destination: '' });
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % maxSlides);
@@ -144,12 +151,9 @@ export const DestinationCarousel = () => {
     setCurrentIndex((prev) => (prev - 1 + maxSlides) % maxSlides);
   };
 
-  const slidePercentage = 100 / cardsPerView;
-
   return (
     <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-  <div className="max-w-6xl mx-auto">
-        {/* Heading */}
+      <div className="max-w-6xl mx-auto">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -161,13 +165,11 @@ export const DestinationCarousel = () => {
             National <span className="text-accent-1">Destinations</span>
           </h2>
           <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
-            Discover the beauty of India with our curated 3-day experiences. 
-            From mountain peaks to serene lakes, adventure awaits.
+            Discover the beauty of India with our curated itineraries. From mountain peaks to serene lakes, adventure awaits.
           </p>
         </motion.div>
 
         <div className="relative">
-          {/* Navigation Buttons */}
           <motion.button
             onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 glass rounded-full text-white hover:text-accent-1 transition-colors"
@@ -186,92 +188,71 @@ export const DestinationCarousel = () => {
             <ChevronRight size={24} />
           </motion.button>
 
-          {/* Cards */}
-          {/* Cards */}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-  {nationalDestinations.map((destination) => (
-    <motion.div
-      key={destination.id}
-      className="destination-card group cursor-pointer h-full relative z-10 bg-bg-800 rounded-xl md:rounded-2xl p-4 flex flex-col"
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Image */}
-      <div className="relative overflow-hidden rounded-lg md:rounded-xl mb-3 aspect-[4/3]">
-        <motion.img
-          src={destination.image}
-          alt={destination.name}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.6 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-900/60 to-transparent" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {nationalDestinations.map((destination) => (
+              <motion.div
+                key={destination.id}
+                className="destination-card group cursor-pointer h-full relative z-10 bg-bg-800 rounded-xl md:rounded-2xl p-4 flex flex-col"
+                whileHover={{ y: -6, scale: 1.01 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="relative overflow-hidden rounded-lg md:rounded-xl mb-3 aspect-[4/3]">
+                  <motion.img
+                    src={destination.image}
+                    alt={destination.name}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-900/60 to-transparent" />
 
-        {/* Price Badge */}
-        <div className="absolute top-2 right-2 bg-accent-1 text-bg-900 px-2 py-0.5 rounded-full font-semibold text-[11px]">
-          {destination.price}
-        </div>
+                  <div className="absolute top-2 right-2 bg-accent-1 text-bg-900 px-2 py-0.5 rounded-full font-semibold text-[11px]">
+                    {destination.price}
+                  </div>
 
-        {/* Floating Icons */}
-        <div className="absolute bottom-3 left-3 flex items-center space-x-3 text-white text-xs">
-          <div className="flex items-center space-x-1">
-            <Clock size={14} />
-            <span>{destination.duration}</span>
+                  <div className="absolute bottom-3 left-3 flex items-center space-x-3 text-white text-xs">
+                    <div className="flex items-center space-x-1">
+                      <Clock size={14} />
+                      <span>{destination.duration}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Star size={14} className="text-gold fill-gold" />
+                      <span>{destination.rating}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col flex-grow space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <MapPin size={16} className="text-accent-1" />
+                    <h3 className="font-display font-bold text-base md:text-lg text-white">
+                      {destination.name}
+                    </h3>
+                  </div>
+
+                  <p className="text-white/80 leading-relaxed text-xs md:text-sm flex-grow">
+                    {destination.description}
+                  </p>
+
+                  <motion.button
+                    className="w-full btn-hero justify-center mt-3 md:mt-4 group-hover:bg-accent-1/20 group-hover:border-accent-1 text-sm py-1.5"
+                    onClick={() =>
+                      setTimelineModal({
+                        isOpen: true,
+                        destination: destination.name,
+                        timeline: itineraries[destination.name] || []
+                      })
+                    }
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Explore Journey →
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <div className="flex items-center space-x-1">
-            <Star size={14} className="text-gold fill-gold" />
-            <span>{destination.rating}</span>
-          </div>
-        </div>
-      </div>
 
-      {/* Content */}
-      <div className="flex flex-col flex-grow space-y-3">
-        <div className="flex items-center space-x-2">
-          <MapPin size={16} className="text-accent-1" />
-          <h3 className="font-display font-bold text-base md:text-lg text-white">
-            {destination.name}
-          </h3>
-        </div>
-
-        <p className="text-white/80 leading-relaxed text-xs md:text-sm flex-grow">
-          {destination.description}
-        </p>
-
-        {/* Highlights */}
-        <div className="flex flex-wrap gap-2">
-          {destination.highlights.map((highlight, index) => (
-            <span
-              key={highlight}
-              className="px-2 py-0.5 bg-white/10 rounded-full text-[11px] text-white/90"
-            >
-              {highlight}
-            </span>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <motion.button
-          className="w-full btn-hero justify-center mt-3 md:mt-4 group-hover:bg-accent-1/20 group-hover:border-accent-1 text-sm py-1.5"
-          onClick={() =>
-            setTimelineModal({
-              isOpen: true,
-              destination: destination.name,
-              timeline: buildTimeline(destination),
-            })
-          }
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          Explore Journey →
-        </motion.button>
-      </div>
-    </motion.div>
-  ))}
-</div>
-
-
-          {/* Pagination Dots */}
           <div className="flex justify-center mt-12 space-x-2">
             {Array.from({ length: maxSlides }).map((_, index) => (
               <motion.button
