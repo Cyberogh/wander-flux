@@ -6,12 +6,12 @@ import { format, addDays, parseISO } from 'date-fns';
 import 'react-day-picker/dist/style.css';
 
 const nationalDestinations = [
-  'Nepal', 'Manali, India', 'Nainital', 'Munsiyari', 'Mussoorie', 
-  'Tirthanjeevi Arunachal Pradesh', 'Shillong'
+  'Munsiyari', 'Nainital to Mukteshwar', 'Tirthan Jibhi - Manali', 'Tawang Arunachal Pradesh', 'Mussoorie - Landour - Rishikesh', 
+  'Shillong'
 ];
 
 const internationalDestinations = [
-  'Thailand', 'Malaysia', 'Sri Lanka', 'Nepal', 'Maldives'
+  'Nepal', 'Thailand', 'Malaysia', 'Maldives', 'Srilanka'
 ];
 
 export const BookingWidget = () => {
