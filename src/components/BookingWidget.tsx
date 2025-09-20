@@ -28,7 +28,7 @@ export const BookingWidget = () => {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (destinationRef.current && !destinationRef.current.contains(event.target as Node)) {
         setIsDestinationOpen(false);
       }
@@ -38,7 +38,11 @@ export const BookingWidget = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, []);
 
   const handleDateSelect = (date: Date | undefined) => {
@@ -98,8 +102,12 @@ export const BookingWidget = () => {
         {/* Destination Selector */}
         <div className="relative" ref={destinationRef}>
           <motion.button
-            className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors"
-            onClick={() => setIsDestinationOpen(!isDestinationOpen)}
+            className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsDestinationOpen(!isDestinationOpen);
+            }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -118,11 +126,12 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isDestinationOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl max-h-64 overflow-y-auto"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-50 shadow-xl max-h-64 overflow-y-auto touch-manipulation"
                 initial={{ opacity: 0, y: -10, rotateX: -10 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 exit={{ opacity: 0, y: -10, rotateX: -10 }}
                 transition={{ duration: 0.3 }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="space-y-3">
                   <div>
@@ -176,8 +185,12 @@ export const BookingWidget = () => {
         {/* Date Picker */}
         <div className="relative">
           <motion.button
-            className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors"
-            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+            className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsCalendarOpen(!isCalendarOpen);
+            }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -195,11 +208,12 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isCalendarOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-50 shadow-xl touch-manipulation"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <DayPicker
                   mode="single"
@@ -222,8 +236,12 @@ export const BookingWidget = () => {
         {/* People Selector */}
         <div className="relative" ref={peopleRef}>
           <motion.button
-            className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors"
-            onClick={() => setIsPeopleOpen(!isPeopleOpen)}
+            className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsPeopleOpen(!isPeopleOpen);
+            }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -236,11 +254,12 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isPeopleOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-20 shadow-xl"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-50 shadow-xl touch-manipulation"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -304,8 +323,12 @@ export const BookingWidget = () => {
 
         {/* Send Inquiry Button */}
         <motion.button
-          className="w-full p-4 bg-gradient-to-r from-accent-1 to-accent-2 rounded-xl text-white font-semibold flex items-center justify-center space-x-2 hover:shadow-lg hover:shadow-accent-1/20 transition-all magnetic"
-          onClick={sendWhatsAppInquiry}
+          className="w-full p-4 bg-gradient-to-r from-accent-1 to-accent-2 rounded-xl text-white font-semibold flex items-center justify-center space-x-2 hover:shadow-lg hover:shadow-accent-1/20 transition-all touch-manipulation"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            sendWhatsAppInquiry();
+          }}
           disabled={!selectedDestination || !selectedDate}
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
