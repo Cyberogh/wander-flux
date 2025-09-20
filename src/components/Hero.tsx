@@ -63,7 +63,7 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-visible lg:overflow-hidden">
       {/* Background Images with Parallax */}
       {/* Fixed looping video background */}
 <video

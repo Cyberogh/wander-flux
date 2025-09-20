@@ -26,6 +26,16 @@ export const BookingWidget = () => {
   const destinationRef = useRef<HTMLDivElement>(null);
   const peopleRef = useRef<HTMLDivElement>(null);
 
+  // Prevent hash-anchor auto-scrolling affecting widget interactions on mobile
+  const clearHash = () => {
+    if (window.location.hash) {
+      try {
+        const url = window.location.pathname + window.location.search;
+        window.history.replaceState({}, "", url);
+      } catch {}
+    }
+  };
+
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -44,6 +54,12 @@ export const BookingWidget = () => {
       document.removeEventListener('touchstart', handleClickOutside);
     };
   }, []);
+
+  // Clear hash on mount to avoid sticky anchor re-scroll on interaction
+  useEffect(() => {
+    clearHash();
+  }, []);
+
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -106,6 +122,7 @@ export const BookingWidget = () => {
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
             onClick={(e) => {
               e.stopPropagation();
+              clearHash();
               setIsDestinationOpen((open) => !open);
             }}
             onTouchStart={(e) => e.stopPropagation()}
@@ -193,6 +210,7 @@ export const BookingWidget = () => {
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
             onClick={(e) => {
               e.stopPropagation();
+              clearHash();
               setIsCalendarOpen((open) => !open);
             }}
             onTouchStart={(e) => e.stopPropagation()}
@@ -248,6 +266,7 @@ export const BookingWidget = () => {
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
             onClick={(e) => {
               e.stopPropagation();
+              clearHash();
               setIsPeopleOpen((open) => !open);
             }}
             onTouchStart={(e) => e.stopPropagation()}
@@ -351,6 +370,7 @@ export const BookingWidget = () => {
           className="w-full p-4 bg-gradient-to-r from-accent-1 to-accent-2 rounded-xl text-white font-semibold flex items-center justify-center space-x-2 hover:shadow-lg hover:shadow-accent-1/20 transition-all touch-manipulation"
           onClick={(e) => {
             e.stopPropagation();
+            clearHash();
             sendWhatsAppInquiry();
           }}
           onTouchStart={(e) => e.stopPropagation()}
