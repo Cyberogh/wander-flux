@@ -102,12 +102,14 @@ export const BookingWidget = () => {
         {/* Destination Selector */}
         <div className="relative" ref={destinationRef}>
           <motion.button
+            type="button"
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
             onClick={(e) => {
-              e.preventDefault();
               e.stopPropagation();
-              setIsDestinationOpen(!isDestinationOpen);
+              setIsDestinationOpen((open) => !open);
             }}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -126,12 +128,14 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isDestinationOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-50 shadow-xl max-h-64 overflow-y-auto touch-manipulation"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-[999] shadow-xl max-h-64 overflow-y-auto overscroll-contain touch-manipulation pointer-events-auto"
                 initial={{ opacity: 0, y: -10, rotateX: -10 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 exit={{ opacity: 0, y: -10, rotateX: -10 }}
                 transition={{ duration: 0.3 }}
                 onClick={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
               >
                 <div className="space-y-3">
                   <div>
@@ -185,12 +189,14 @@ export const BookingWidget = () => {
         {/* Date Picker */}
         <div className="relative">
           <motion.button
+            type="button"
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
             onClick={(e) => {
-              e.preventDefault();
               e.stopPropagation();
-              setIsCalendarOpen(!isCalendarOpen);
+              setIsCalendarOpen((open) => !open);
             }}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -208,12 +214,14 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isCalendarOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-50 shadow-xl touch-manipulation"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-[999] shadow-xl touch-manipulation pointer-events-auto"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 onClick={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
               >
                 <DayPicker
                   mode="single"
@@ -236,12 +244,14 @@ export const BookingWidget = () => {
         {/* People Selector */}
         <div className="relative" ref={peopleRef}>
           <motion.button
+            type="button"
             className="w-full p-4 glass rounded-xl text-left flex items-center justify-between text-white hover:border-accent-1/50 transition-colors touch-manipulation"
             onClick={(e) => {
-              e.preventDefault();
               e.stopPropagation();
-              setIsPeopleOpen(!isPeopleOpen);
+              setIsPeopleOpen((open) => !open);
             }}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -254,20 +264,25 @@ export const BookingWidget = () => {
           <AnimatePresence>
             {isPeopleOpen && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-50 shadow-xl touch-manipulation"
+                className="absolute top-full left-0 right-0 mt-2 bg-surface-700 backdrop-blur-md border border-white/10 rounded-xl p-4 z-[999] shadow-xl touch-manipulation pointer-events-auto overscroll-contain"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
                 onClick={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-white">Adults</span>
                     <div className="flex items-center space-x-3">
                       <motion.button
+                        type="button"
                         className="w-8 h-8 glass rounded-full flex items-center justify-center text-white hover:bg-white/10"
                         onClick={() => decrementCounter('adults')}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onTouchEnd={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                       >
@@ -275,8 +290,11 @@ export const BookingWidget = () => {
                       </motion.button>
                       <span className="text-white w-8 text-center">{adults}</span>
                       <motion.button
+                        type="button"
                         className="w-8 h-8 glass rounded-full flex items-center justify-center text-white hover:bg-white/10"
                         onClick={() => incrementCounter('adults')}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onTouchEnd={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                       >
@@ -288,8 +306,11 @@ export const BookingWidget = () => {
                     <span className="text-white">Kids</span>
                     <div className="flex items-center space-x-3">
                       <motion.button
+                        type="button"
                         className="w-8 h-8 glass rounded-full flex items-center justify-center text-white hover:bg-white/10"
                         onClick={() => decrementCounter('kids')}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onTouchEnd={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                       >
@@ -297,8 +318,11 @@ export const BookingWidget = () => {
                       </motion.button>
                       <span className="text-white w-8 text-center">{kids}</span>
                       <motion.button
+                        type="button"
                         className="w-8 h-8 glass rounded-full flex items-center justify-center text-white hover:bg-white/10"
                         onClick={() => incrementCounter('kids')}
+                        onTouchStart={(e) => e.stopPropagation()}
+                        onTouchEnd={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                       >
@@ -323,12 +347,14 @@ export const BookingWidget = () => {
 
         {/* Send Inquiry Button */}
         <motion.button
+          type="button"
           className="w-full p-4 bg-gradient-to-r from-accent-1 to-accent-2 rounded-xl text-white font-semibold flex items-center justify-center space-x-2 hover:shadow-lg hover:shadow-accent-1/20 transition-all touch-manipulation"
           onClick={(e) => {
-            e.preventDefault();
             e.stopPropagation();
             sendWhatsAppInquiry();
           }}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
           disabled={!selectedDestination || !selectedDate}
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
