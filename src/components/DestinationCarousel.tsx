@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Clock, Star } from 'lucide-react';
 import { TimelineModal } from './TimelineModal';
 
-interface TrekDestination {
+interface Destination {
   id: number;
   name: string;
   image: string;
@@ -14,76 +14,161 @@ interface TrekDestination {
   highlights: string[];
 }
 
-const trekDestinations: TrekDestination[] = [
+const nationalDestinations: Destination[] = [
   {
     id: 1,
-    name: "Nagaland Tribal Trails",
-    image: "https://images.unsplash.com/photo-1524492449090-1a065f3a1c7d?w=800&h=600&fit=crop",
-    description: "Dzukou Valley trek with tribal culture and lush green meadows.",
-    duration: "4 days",
-    price: "₹20,000",
-    rating: 4.9,
+    name: "Munsiyari",
+    image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/38/f9/ef/view-of-panchachuli-from.jpg?w=800&h=600&fit=crop",
+    description: "With Helirides! Winding roads, hot chai, and sunsets that stay with you.",
+    duration: "3 days",
+    price: "₹19,999",
+    rating: 4.8,
     highlights: []
   },
   {
     id: 2,
-    name: "Munsiyari Glacier Trek",
-    image: "https://images.unsplash.com/photo-1508261303786-0a7c4a41b2ee?w=800&h=600&fit=crop",
-    description: "Khaliya Top trek in the heart of Kumaon Himalayas.",
-    duration: "4 days",
-    price: "₹18,000",
-    rating: 4.8,
+    name: "Nainital to Mukteshwar",
+    image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/2a/6e/96/caption.jpg?w=800&h=600&fit=crop",
+    description: "Calm lakes and quiet hills to slow down in.",
+    duration: "3 days",
+    price: "₹9,999",
+    rating: 4.7,
+    highlights: []
+  },
+  {
+    id: 3,
+    name: "Tirthan Jibhi",
+    image: "https://d2qa7a8q0vuocm.cloudfront.net/images/25178020230702180435.png?w=800&h=600&fit=crop",
+    description: "Waterfalls, pine trails, and cozy mountain vibes.",
+    duration: "3 days",
+    price: "₹12,000",
+    rating: 4.9,
+    highlights: []
+  },
+  {
+    id: 4,
+    name: "Tawang Arunachal Pradesh",
+    image: "https://images.unsplash.com/photo-1626761627604-f27d98885f4b?w=800&h=600&fit=crop",
+    description: "Monasteries, mountain passes, and endless views.",
+    duration: "3 days",
+    price: "₹15,000",
+    rating: 4.6,
+    highlights: []
+  },
+  {
+    id: 5,
+    name: "Mussoorie - Landour - Rishikesh",
+    image: "https://images.unsplash.com/photo-1583143874828-de3d288be51a?w=800&h=600&fit=crop",
+    description: "Colonial charm, lazy walks, and a dash of adventure.",
+    duration: "3 days",
+    price: "₹9,999",
+    rating: 4.6,
+    highlights: []
+  },
+  {
+    id: 6,
+    name: "Dzukou Valley",
+    image: "https://images.unsplash.com/photo-1746339031227-fe31bf4c0955?w=800&h=600&fit=crop",
+    description: "Music, mist, and a hill town that feels alive.",
+    duration: "3 days",
+    price: "₹12,000",
+    rating: 4.6,
     highlights: []
   }
 ];
 
-// Itineraries for trekking destinations
-const trekItineraries: Record<string, { day: number; title: string; activities: string[] }[]> = {
-  "Nagaland Tribal Trails": [
-    { day: 1, title: "Dimapur Arrival", activities: [
-      "Pickup from Guwahati to Dimapur",
-      "Dinner & overnight stay in Dimapur"
-    ]},
-    { day: 2, title: "Dimapur → Kigwama", activities: [
-      "Morning breakfast",
-      "Drive to Kigwama (3 hrs)",
-      "Room allotment, evening snacks & dinner"
-    ]},
-    { day: 3, title: "Trek to Base Camp", activities: [
-      "Breakfast",
-      "Start trek to base camp (10–11AM)",
-      "Lunch on trail, reach camp by 4–5PM",
-      "Evening bonfire, music & dinner"
-    ]},
-    { day: 4, title: "Valley Visit & Return", activities: [
-      "Breakfast at 7AM",
-      "Enjoy Dzukou Valley nature",
-      "Return to basecamp & homestay",
-      "Evening departure for railway station"
-    ]}
+// Itineraries for each destination
+const itineraries: Record<string, { day: number; title: string; activities: string[] }[]> = {
+  "Nainital to Mukteshwar": [
+    { day: 0, title: "Pickup from Lucknow", activities: ["Pickup from Lucknow Alambagh metro station at 10:30PM", "Overnight luxury bus journey to Kathgodam"]},
+    { day: 1, title: "Reach Kathgodam (Nainital)", activities: ["Reach Bhimtal, witness lakes Bhimtal & Sattal", "Stay at Bhimtal cottages/hotel", "Explore Nainital, Mall Road, Sattal, paragliding at Naukuchiyatal", "Evening bonfire and dinner"]},
+    { day: 2, title: "Mukteshwar", activities: ["Morning sunrise & breakfast", "Visit Baba Neem Karoli Ashram", "Riverside party", "Scenic sunset in Mukteshwar", "Overnight stay in jungle camp"]},
+    { day: 3, title: "Bhalughad Waterfall Trek & Return", activities: ["Checkout & trek to Bhalughad waterfall (1.5km)", "Evening return to Kathgodam", "Luxury bus back to Lucknow"]}
   ],
-  "Munsiyari Glacier Trek": [
-    { day: 1, title: "Kathgodam → Munsiyari", activities: [
-      "Scenic drive via Almora & Bageshwar",
-      "Evening arrival at Munsiyari, check-in",
-      "Dinner & rest with Panchachuli peaks view"
-    ]},
-    { day: 2, title: "Munsiyari → Khaliya Top Camp", activities: [
-      "Short drive to trek start (Balanti Farm)",
-      "Trek through oak, pine & rhododendron forests",
-      "Reach campsite below Khaliya Top",
-      "Dinner & overnight in tents"
-    ]},
-    { day: 3, title: "Khaliya Top Summit & Return", activities: [
-      "Early start to Khaliya Top summit (360° Himalayan views)",
-      "Descend to Balanti Farm",
-      "Drive back to Munsiyari, rest & dinner"
-    ]},
-    { day: 4, title: "Munsiyari → Kathgodam", activities: [
-      "Breakfast & return drive to Kathgodam",
-      "Trip ends with Himalayan memories"
-    ]}
-  ]
+  "Munsiyari": [
+    { day: 0, title: "Pickup from Lucknow", activities: ["Pickup from Alambagh metro station at 10:30PM", "Overnight bus to Kathgodam"]},
+    { day: 1, title: "Kathgodam to Munsiyari", activities: ["Scenic drive via Pithoragarh", "Check-in, dinner and rest between snow-clad mountains"]},
+    { day: 2, title: "Khaliya Peak Trek", activities: ["Early breakfast", "Start Khaliya peak trek (10-12km)", "Reach zero point for mesmerizing views", "Return to stay, bonfire & dinner"]},
+    { day: 3, title: "Helicopter Ride & Return", activities: ["Breakfast", "Helicopter ride Munsiyari → Haldwani (45 mins)", "Explore Haldwani market or Nainital", "Evening bus back to Lucknow"]}
+  ],
+  "Mussoorie - Landour - Rishikesh": [
+    { day: 0, title: "Pickup from Lucknow", activities: ["Pickup from Lucknow Alambagh at 10PM", "Overnight bus to Dehradun"]},
+    { day: 1, title: "Dehradun – Mussoorie", activities: ["Reach Dehradun, breakfast enroute", "Check into Mussoorie stay", "Explore Landour, Lal Tibba, churches, cafés, Mall Road", "Evening games, music, dinner"]},
+    { day: 2, title: "Rishikesh", activities: ["Breakfast", "Move to Rishikesh, stay in riverside cottages", "Adventure sports: rafting, bungee, etc.", "Evening Ganga Aarti, bonfire & dinner"]},
+    { day: 3, title: "Hidden Rishikesh & Return", activities: ["Visit Patna waterfall, Beatles Ashram, Triveni Ghat", "Return to Dehradun", "Evening bus to Lucknow"]}
+  ],
+  "Tirthan Jibhi - Manali": [
+    { day: 1, title: "Lucknow to Delhi", activities: ["Overnight journey Lucknow → Delhi → Jibhi"]},
+    { day: 2, title: "Explore Jibhi", activities: ["Breakfast", "Explore Jibhi town, riverside cafés", "Evening bonfire & music"]},
+    { day: 3, title: "Jalori Pass & Serolsar Lake Trek", activities: ["Breakfast", "Drive to Jalori Pass", "Trek 9km to Serolsar Lake", "Dinner & rest"]},
+    { day: 4, title: "Rafting or Chehni Kothi Trek", activities: ["Breakfast", "Choose rafting / Chehni Kothi trek", "Evening departure from Jibhi"]},
+    { day: 5, title: "Delhi & Lucknow arrival", activities: ["Trip ends"]}
+  ],
+  "Tawang Arunachal Pradesh": [
+    { day: 1, title: "Guwahati to Dirang", activities: ["Breakfast", "Sightseeing: Kameng River, Tippi Orchid Park, Nichiphula Waterpark", "Overnight stay at Dirang"]},
+    { day: 2, title: "Dirang to Tawang", activities: ["Breakfast", "Sightseeing: Sela Pass, Sela Lake, Jaswant Garh War Memorial, Nuranang Falls", "Overnight stay at Tawang"]},
+    { day: 3, title: "Explore Tawang", activities: ["Sightseeing: Bumla Pass, Pangateng Lake, Madhuri Lake, Tawang Monastery, Buddha Statue, War Memorial", "Overnight stay at Tawang"]},
+    { day: 4, title: "Tawang to Dirang", activities: ["Breakfast", "Sightseeing: Sela Tunnel, Dirang Monastery, Sangti Valley", "Overnight stay at Dirang"]},
+    { day: 5, title: "Dirang to Guwahati", activities: ["Breakfast", "Sightseeing: Bomdila Monastery, Shergaon Hanging Bridge, Bhutan Border", "Return to Guwahati"]}
+  ],
+  "Dzukou Valley": [
+  {
+    "day": 1,
+    title: "Lucknow to Shillong",
+    activities: [
+      "Pick up at 12PM to 3PM from Guwahati to Dimpur.",
+      "Have dinner and stay overnight in Dimpur."
+    ]
+  },
+  {
+    "day": 2,
+    title: "Explore Shillong",
+    activities: [
+      "Wake up at 7:00AM or 7:30AM.",
+      "Morning breakfast.",
+      "Pick up at 10:30 to 11:00AM from Dimpur stay.",
+      "Drop at homestay composite at nearly 4:00PM (Dimpur to Kigwama, approx. 3-hour drive).",
+      "After room allotment, there will be some fun time.",
+      "Dinner served at 9:30PM.",
+      "Meals: Evening Snacks, Dinner."
+    ]
+  },
+  {
+    "day": 3,
+    title: "Shillong Lake Trek",
+    activities: [
+      "Wake up at 7:00AM.",
+      "Morning breakfast served at 7:30AM.",
+      "Leave for trek start point around 10:00AM - 10:30AM.",
+      "Lunch served at 12:00PM.",
+      "Fun time, scenic views, and snacks along the trek.",
+      "Reach base camp around 4:00PM - 5:00PM.",
+      "Bonfire at 7:30PM.",
+      "Dinner at 9:00PM with music and enjoyment.",
+      "Overnight stay in tents."
+    ]
+  },
+  {
+    "day": 4,
+    title: "Shillong trek or rafting",
+    activities: [
+      "Breakfast at 7:00AM (enjoy at valley or basecamp).",
+      "Explore the valley and enjoy nature.",
+      "Leave for basecamp around 10:00AM - 11:00AM.",
+      "Return to respective homestay.",
+      "Tea and snacks served during rest time.",
+      "Depart for railway station at respective time.",
+      "Meals: Breakfast and Lunch."
+    ]
+  },
+  {
+    "day": 5,
+    title: "Trip Ends",
+    activities: [
+      "Delhi & Lucknow arrival."
+    ]
+  }
+]
 };
 
 const useCardsPerView = () => {
@@ -103,14 +188,19 @@ const useCardsPerView = () => {
   return cards;
 };
 
-export const TrekkingSection = () => {
+export const DestinationCarousel = () => {
   const cardsPerView = useCardsPerView();
-  const maxSlides = Math.ceil(trekDestinations.length / cardsPerView);
+  const maxSlides = Math.ceil(nationalDestinations.length / cardsPerView);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timelineModal, setTimelineModal] = useState<{ isOpen: boolean; destination: string; timeline?: { day: number; title: string; activities: string[] }[] }>({ isOpen: false, destination: '' });
 
-  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % maxSlides);
-  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + maxSlides) % maxSlides);
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % maxSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + maxSlides) % maxSlides);
+  };
 
   return (
     <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
@@ -123,10 +213,10 @@ export const TrekkingSection = () => {
           viewport={{ once: true }}
         >
           <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-display text-white mb-4">
-            Trekking <span className="text-accent-1">Adventures</span>
+            National <span className="text-accent-1">Destinations</span>
           </h2>
           <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
-            Embark on thrilling treks across India’s hidden trails and valleys.
+            Discover the beauty of India with our curated itineraries. From mountain peaks to serene lakes, adventure awaits.
           </p>
         </motion.div>
 
@@ -150,7 +240,7 @@ export const TrekkingSection = () => {
           </motion.button>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {trekDestinations.map((destination) => (
+            {nationalDestinations.map((destination) => (
               <motion.div
                 key={destination.id}
                 className="destination-card group cursor-pointer h-full relative z-10 bg-bg-800 rounded-xl md:rounded-2xl p-4 flex flex-col"
@@ -201,7 +291,7 @@ export const TrekkingSection = () => {
                       setTimelineModal({
                         isOpen: true,
                         destination: destination.name,
-                        timeline: trekItineraries[destination.name] || []
+                        timeline: itineraries[destination.name] || []
                       })
                     }
                     whileHover={{ scale: 1.02 }}
@@ -219,7 +309,11 @@ export const TrekkingSection = () => {
               <motion.button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-accent-1 w-8' : 'bg-white/30 hover:bg-white/50'}`}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-accent-1 w-8' 
+                    : 'bg-white/30 hover:bg-white/50'
+                }`}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.8 }}
               />
@@ -228,7 +322,7 @@ export const TrekkingSection = () => {
         </div>
       </div>
 
-      <TimelineModal
+      <TimelineModal 
         isOpen={timelineModal.isOpen}
         onClose={() => setTimelineModal({ isOpen: false, destination: '', timeline: undefined })}
         destination={timelineModal.destination}

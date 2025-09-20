@@ -121,7 +121,7 @@ export const TimelineModal = ({ isOpen, onClose, destination, timeline }: Timeli
             
             {/* Content Area */}
             <div className="h-[calc(100%-88px)] overflow-y-auto cursor-auto">
-              {currentStep < 3 ? (
+              {currentStep < data.length ? (
                 /* Timeline View */
                 <div className="p-6">
                   {/* Timeline Progress */}
@@ -181,21 +181,22 @@ export const TimelineModal = ({ isOpen, onClose, destination, timeline }: Timeli
                   
                   {/* Navigation */}
                   <div className="flex justify-center mt-8 space-x-4">
-                    {currentStep > 0 && (
-                      <button
-                        onClick={() => setCurrentStep(currentStep - 1)}
-                        className="px-6 py-3 bg-white/20 text-[#2E5AAC] rounded-lg hover:bg-white/30 transition-colors"
-                      >
-                        Previous Day
-                      </button>
-                    )}
-                    <button
-                      onClick={() => setCurrentStep(currentStep + 1)}
-                      className="px-6 py-3 bg-[#2E5AAC] text-white rounded-lg hover:bg-[#2E5AAC]/80 transition-colors"
-                    >
-                      {currentStep < 2 ? 'Next Day' : 'View Details'}
-                    </button>
-                  </div>
+  {currentStep > 0 && (
+    <button
+      onClick={() => setCurrentStep(currentStep - 1)}
+      className="px-6 py-3 bg-white/20 text-[#2E5AAC] rounded-lg hover:bg-white/30 transition-colors"
+    >
+      Previous Day
+    </button>
+  )}
+  <button
+    onClick={() => setCurrentStep(currentStep + 1)}
+    className="px-6 py-3 bg-[#2E5AAC] text-white rounded-lg hover:bg-[#2E5AAC]/80 transition-colors"
+  >
+    {currentStep < data.length - 1 ? 'Next Day' : 'View Details'}
+  </button>
+</div>
+
                 </div>
               ) : (
                 /* Details View */

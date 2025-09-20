@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import logo from '@/assets/logo-white.png'; // Adjust the path according to where you store your logo
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -42,8 +43,13 @@ export const Header = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <div className="w-8 h-8 bg-gradient-to-br from-accent-1 to-accent-2 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">T</span>
+          {/* Replace the 'T' logo with the actual logo */}
+          <div className="w-8 h-8 bg-gradient-to-br from-accent-1 to-accent-2 rounded-full flex items-center justify-center">
+            <img 
+              src={logo} 
+              alt="Thrill Trail Logo" 
+              className="w-full h-full object-cover rounded-full" 
+            />
           </div>
           <span className="text-white font-display font-bold text-xl">Thrill Trail</span>
         </motion.div>

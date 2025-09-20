@@ -65,41 +65,22 @@ export const Hero = () => {
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Background Images with Parallax */}
-      <AnimatePresence mode="wait">
-        {heroSlides.map((slide, index) => (
-          currentSlide === index && (
-            <motion.div
-              key={slide.id}
-              className="absolute inset-0 w-full h-full"
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                x: mousePosition.x * -10,
-                y: mousePosition.y * -5,
-              }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ 
-                opacity: { duration: 1.2 },
-                scale: { duration: 1.2 },
-                x: { duration: 0.8, ease: "easeOut" },
-                y: { duration: 0.8, ease: "easeOut" },
-              }}
-            >
-              <img
-                src={slide.image}
-                alt={`${slide.title} ${slide.titleHighlight}`}
-                className="w-full h-full object-cover"
-                style={{ willChange: 'transform' }}
-              />
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-900/80 via-bg-900/40 to-bg-900/20" />
-              {/* Glass overlay */}
-              <div className="absolute inset-0 bg-glass" />
-            </motion.div>
-          )
-        ))}
-      </AnimatePresence>
+      {/* Fixed looping video background */}
+<video
+  className="absolute inset-0 w-full h-full object-cover"
+  src="/videos/hero-video.mp4"  // Path to the video in the public folder
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+/>
+
+{/* Dark overlay */}
+<div className="absolute inset-0 bg-gradient-to-t from-bg-900/80 via-bg-900/40 to-bg-900/20" />
+{/* Glass overlay */}
+<div className="absolute inset-0 bg-glass" />
+
 
       {/* Content */}
       <div className="relative z-10 flex items-center min-h-screen px-4 sm:px-6 lg:px-8 py-20 lg:py-0">

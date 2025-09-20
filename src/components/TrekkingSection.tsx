@@ -109,6 +109,12 @@ const khaliyaTopTimeline = [
   }
 ];
 
+// CREATE THE ITINERARIES MAPPING OBJECT (this was missing!)
+const trekkingItineraries: Record<string, { day: number; title: string; activities: string[] }[]> = {
+  "Dzukou Valley Trek": dzukouValleyTimeline,
+  "Khaliya Top Trek": khaliyaTopTimeline
+};
+
 const trekkingDestinations = [
   {
     id: 1,
@@ -126,7 +132,7 @@ const trekkingDestinations = [
   {
     id: 2,
     name: "Khaliya Top Trek",
-    image: "https://images.unsplash.com/photo-1464822759844-d150baec93c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80", 
+    image: "https://uttarakhandtriptrek.com/wp-content/uploads/2018/10/Khaliya-Top-Munsayari.jpg", 
     price: "₹22,000",
     duration: "4 days",
     rating: 4.7,
@@ -139,7 +145,12 @@ const trekkingDestinations = [
 ];
 
 export const TrekkingSection = () => {
-  const [timelineModal, setTimelineModal] = useState({ isOpen: false, destination: '' });
+  // UPDATED: Change the state structure to match DestinationCarousel
+  const [timelineModal, setTimelineModal] = useState<{ 
+    isOpen: boolean; 
+    destination: string; 
+    timeline?: { day: number; title: string; activities: string[] }[] 
+  }>({ isOpen: false, destination: '' });
 
   return (
     <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-bg-900">
@@ -244,10 +255,14 @@ export const TrekkingSection = () => {
                   ))}
                 </div>
 
-                {/* CTA Button */}
+                {/* CTA Button - UPDATED to pass timeline data */}
                 <motion.button
                   className="w-full px-6 py-3 bg-gradient-to-r from-accent-1 to-accent-2 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-accent-1/20 transition-all magnetic"
-                  onClick={() => setTimelineModal({ isOpen: true, destination: destination.location })}
+                  onClick={() => setTimelineModal({ 
+                    isOpen: true, 
+                    destination: destination.name,
+                    timeline: trekkingItineraries[destination.name] || []
+                  })}
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -261,8 +276,9 @@ export const TrekkingSection = () => {
 
       <TimelineModal 
         isOpen={timelineModal.isOpen}
-        onClose={() => setTimelineModal({ isOpen: false, destination: '' })}
+        onClose={() => setTimelineModal({ isOpen: false, destination: '', timeline: undefined })}
         destination={timelineModal.destination}
+        timeline={timelineModal.timeline}
       />
     </section>
   );

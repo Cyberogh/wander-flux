@@ -7,7 +7,7 @@ import 'react-day-picker/dist/style.css';
 
 const nationalDestinations = [
   'Munsiyari', 'Nainital to Mukteshwar', 'Tirthan Jibhi - Manali', 'Tawang Arunachal Pradesh', 'Mussoorie - Landour - Rishikesh', 
-  'Shillong'
+  'Dzukou Valley'
 ];
 
 const internationalDestinations = [
@@ -54,7 +54,7 @@ export const BookingWidget = () => {
   const sendWhatsAppInquiry = () => {
     if (!selectedDestination || !selectedDate) return;
 
-    const dateString = format(selectedDate, 'yyyy-MM-dd');
+    const dateString = format(selectedDate, 'dd-MM-yyyy');
     const message = `Hi, I'm interested in your 3-day trip to ${selectedDestination} for ${adults} adults and ${kids} kids starting ${dateString}. Please send details, cost and availability.`;
     const urlEncoded = encodeURIComponent(message);
     
